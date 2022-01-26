@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mappers.memberMapper">
+
+	<select id="autoNum" resultType="int">
+		select nvl(max(MEMBER_NUM),0) + 1 from member
+	</select>
+	
+	<select id="memberList" resultType="model.MemberDTO">
+		select 
+		MEMBER_NUM membernum,MEMBER_NAME membername,MEMBER_PHONE memberphone,
+		MEMBER_GRADE membergrade,MEMBER_JOINDATE memberjoindate,MEMBER_ADDRESS memberaddress
+		from (select * from member order by MEMBER_NUM desc)
+	</select>
+	
+	<insert id="registAct" parameterType="model.MemberDTO">
+		insert into
+		member(MEMBER_NUM,MEMBER_NAME,MEMBER_PHONE,MEMBER_GRADE,MEMBER_JOINDATE,MEMBER_ADDRESS)
+		values(#{membernum},#{membername},#{memberphone},#{membergrade},#{memberjoindate},#{memberaddress})
+	</insert>
+</mapper>
